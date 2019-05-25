@@ -2,7 +2,7 @@
 <html lang="en">
    <head>
       <?php
-         // On va utiliser des sessions
+         // On va utiliser des sessions 
          session_start();
 
          // On inclue les fontions
