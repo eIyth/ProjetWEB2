@@ -28,7 +28,7 @@ ous devez réaliser en binôme les pages d’une application WEB en fonction de 
 
 ## Version
 
-Version 7 pour le moment
+Version 7
 
 ## Auteurs
 
