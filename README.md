@@ -7,6 +7,8 @@ Créer un site web dynamique utilisant les langages HTML, CSS, PHP, Javascript, 
 ous devez réaliser en binôme les pages d’une application WEB en fonction de la base de données(avec 2 tables + une avec des comptes utilisateurs) qui vous a été attribuée. L’application doit mettreen place tous les concepts vu lors du TD456_PHP complétés ou modifiés par les points suivants.
 
 
+## Etat actuel
+
 ### Déjà fait
 
 * Page de connexion
