@@ -43,25 +43,25 @@
                   </div>
                   <?php
                      if (!empty($_POST)) {
-                       <!-- On test la connexion -->
+                       // On test la connexion
                          if (compteExiste($_POST["email"], $_POST["pass"])) {
 
-                           <!-- Si oui, on redirige vers la page dacceuil -->
+                           // Si oui, on redirige vers la page d'acceuil
                              redirect("index.php", 0);
 
-                             <!-- Et on créer une session avec le login de la personne -->
+                             // Et on créer une session avec le login de la personne
                              $_SESSION["login"]=$_POST["email"];
 
-                             <!-- On test ensuite si cette personne est admin -->
+                             // On test ensuite si cette personne est admin  
                              if (isAdmin($_SESSION["login"])) {
 
-                               <!-- On indique son status dans la SESSION -->
+                               // On indique son status dans la SESSION
                                  $_SESSION["status"]="admin";
                              } else {
                                  $_SESSION["status"]="membre";
                              }
 
-                          <!-- Si non, on affiche un message derreur -->
+                          // Si non, on affiche un message derreur
                          } else {
                              echo '<p align="center"></br> Connexion échouée, verifier votre email/mot de passe </p>';
                          }
