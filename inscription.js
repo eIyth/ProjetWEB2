@@ -1,4 +1,4 @@
-function verifierPass() {
+function verifierPass() { 
   var retour = false;
   //recuperer la mot de pass
   var pass = document.getElementById("pass");
