@@ -9,7 +9,7 @@ ous devez réaliser en binôme les pages d’une application WEB en fonction de 
 
 ## Etat actuel
 
-### Déjà fait
+### Déjà fait :
 
 * Page de connexion
 * Page d'inscription
@@ -20,7 +20,7 @@ ous devez réaliser en binôme les pages d’une application WEB en fonction de 
 * Déconnexion
 
 
-### Déjà fait
+### A faire :
 
 * Modification d'un produit (admin)
 * Suppression d'un produit (admin)
