@@ -52,7 +52,7 @@
                              // Et on créer une session avec le login de la personne
                              $_SESSION["login"]=$_POST["email"];
 
-                             // On test ensuite si cette personne est admin  
+                             // On test ensuite si cette personne est admin
                              if (isAdmin($_SESSION["login"])) {
 
                                // On indique son status dans la SESSION
