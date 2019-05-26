@@ -311,7 +311,7 @@ function afficheFooter()
 {
     ?>
 	<div class="container-fluid">
-		<footer class="footer fixed-bottom bg-dark">
+		<footer class="footer sticked-bottom bg-dark">
 			<div class="container text-center">
 				<br>
 				<span class="text-muted" >Gwenc'hlan / Mathis
