@@ -310,17 +310,13 @@ function afficheMenu()
 function afficheFooter()
 {
     ?>
-	<div class="container-fluid">
-		<footer class="footer sticked-bottom bg-dark">
-			<div class="container text-center">
+		<footer class="pied bg-dark text-center">
 				<br>
 				<span class="text-muted" >Gwenc'hlan / Mathis
 				</span>
 				<br>
 				<br>
-			</div>
 		</footer>
-	</div>
 <?php
 }
 
