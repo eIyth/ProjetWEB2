@@ -7,3 +7,15 @@ img {
 h2{
   font-family: 'QuickSand', sans-serif !important;
 }
+
+
+/* Coller le pied de page en bas */
+html {
+  position: relative;
+  min-height: 100%;
+}
+footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+}
