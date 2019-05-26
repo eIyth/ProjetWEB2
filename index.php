@@ -2,7 +2,7 @@
 <html lang="en">
    <head>
       <?php
-         // On va utiliser des sessions 
+         // On va utiliser des sessions
          session_start();
 
          // On inclue les fontions
@@ -50,7 +50,7 @@
 
                                 // Si aucun produit n'est loué, on affiche un message
                                 if ($nbProduits==0) {
-                                    echo '<h3>Vous ne louez aucun produit</h3';
+                                    echo '<h3>Vous ne louez aucun produit</h3>';
                                 } else {
                                     // Sinon, on affiche ce tableau
                                     afficheTableau($res);
