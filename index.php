@@ -27,15 +27,22 @@
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
    </head>
    <body class="bg-light">
+
       <?php
-         // Affichage du menu (header et navbar)
-         afficheMenu();
+         // Affichage du header
+         afficheHeader();
          ?>
-      <div class="container">
+      <div class="container-fluid">
          <br>
          <br>
          <div class="row">
-            <div class="col-sm card bg-transparent text-center border-light">
+            <div class="col-sm-2">
+                <?php
+        // Affichage du menu
+             afficheMenu();
+             ?>
+            </div>
+            <div class="col-sm-8 card bg-transparent text-center border-light">
                <?php
                   if (!empty($_SESSION) && !empty($_GET) && isset($_GET["action"])) {
                       switch ($_GET["action"]) {
