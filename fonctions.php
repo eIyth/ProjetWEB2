@@ -265,45 +265,36 @@ function estLoue($nom, $login)
     return $retour;
 }
 
-
+function afficheHeader(){
+    ?>
+    <nav class="navbar navbar-light bg-light">
+        <span class="navbar-brand">
+            Location Materiel
+        </span>
+        <a href="index.php?action=logout">Se deconnecter</a>
+    </nav>
+<?php
+}
 
 // Afficher le menu de selection en fonction du status
 function afficheMenu()
 {
     ?>
-<nav class="navbar rounded-bottom navbar-expand-lg navbar-light bg-white">
-  <a class="navbar-brand" href="#">Location Materiel</a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-  <div class="collapse navbar-collapse" id="navbarSupportedContent">
-     <ul class="navbar-nav mr-auto">
-       <li class="nav-item">
-         <a href="index.php" title="Index" class="nav-link">Index</a>
-       </li>
-       <li class="nav-item">
-           <a href="index.php?action=liste_produits_loue" title="Lister les produits loués" class="nav-link">
-             Lister le(s) produits loué(s)</a>
-       </li>
-       <li class="nav-item">
-         <a href="index.php?action=liste_produits_par_marque" title="Lister les produits par marque" class="nav-link">
-           Lister les produits par marque</a>
-       </li>
-       <?php
- //Si la personne est 	admin, on ajoute des lignes au tableau
- if ($_SESSION["status"]=="admin") {
+    <div class="nav flex-column">
+      <a class="nav-link" href="index.php">Index</a>
+      <br>
+      <a class="nav-link" href="index.php?action=liste_produits_loue">Panier</a>
+      <br>
+      <a class="nav-link" href="index.php?action=liste_produits_par_marque">Liste par marque</a>
+      <?
+      //Si la personne est 	admin, on ajoute des lignes au tableau
+    if ($_SESSION["status"]=="admin") {
      ?>
-       <li class="nav-item">
-         <a href="insertion.php?action=inserer_produit" title="Insérer un produit" class="nav-link">
-           Insérer un produit</a>
-       </li>
-       <?php
- } ?>
-      </ul>
-
+     <a class="nav-link h3" href="insertion.php?action=inserer_produit">Inserer un produit</a>
+    <?php
+    }
+    ?>
     </div>
-      <a class="btn btn-primary" href="index.php?action=logout" title="Déconnexion">Se déconnecter</a>
-  </nav>
       <?php
 }
 
