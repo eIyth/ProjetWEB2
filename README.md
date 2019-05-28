@@ -17,14 +17,15 @@ ous devez réaliser en binôme les pages d’une application WEB en fonction de 
 * Affichage de la liste des produits
 * Affichage d'un produit par marque
 * Affichage des produits loués
+* Modification d'un produit (admin)
+* Suppression d'un produit (admin)
+* Insertion d'un produit (admin)
 * Déconnexion
 
 
 ### A faire :
 
-* Modification d'un produit (admin)
-* Suppression d'un produit (admin)
-* Affichage de tout les produits loués (admin)
+* Affichage de tout les produits loués (admin) avec AJAX
 
 ## Version
 
