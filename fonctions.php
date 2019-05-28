@@ -34,8 +34,14 @@ function logConnexion($mail)
 {
     $ip = $_SERVER['REMOTE_ADDR'];
     $time = date("l, j F Y [h:i a]");
-    $log = "IP: $ip du login $mail à  $time";
-    error_log("$log \n", 3, "logs/logs.php");
+    if(isAdmin($mail)){
+        $statut= "admin";
+    }
+    else {
+        $statut ="membre";
+    }
+    $log = "IP: $ip du login $mail à  $time en tant que $statut";
+    error_log("$log \n", 3, "logs/logs");
 }
 
 // Fonction permetant de verifier si un utilisateur est un simple membre ou un admin
@@ -122,16 +128,15 @@ function afficheTableau($tab)
 								<?php
                                 if ($_SESSION["status"]=="admin") {
                                     ?>
-									<form method="post" action="modification.php">
-
-									</form>
 									<br>
                   <form method="post" action="modification.php">
 										<button class="btn btn-info" type="submit" value="<?php echo $donnees["Nom"]?>" name="nom">Modifier</button>
+                                        <input type="hidden" name="action" value="afficheForm" />
 									</form>
                   <br>
-									<form method="post" action="insertion.php">
+									<form method="post" action="supression.php">
 										<button class="btn btn-info" type="submit" value="<?php echo $donnees["Nom"]?>" name="nom">Supprimer</button>
+                                        <input type="hidden" name="action" value="afficheInfo" />
 									</form>
 									<?php
                                 } else {
@@ -265,37 +270,44 @@ function estLoue($nom, $login)
     return $retour;
 }
 
-function afficheHeader(){
-    ?>
-    <nav class="navbar navbar-light bg-light">
-        <span class="navbar-brand">
-            Location Materiel
-        </span>
-        <a href="index.php?action=logout">Se deconnecter</a>
-    </nav>
-<?php
-}
-
 // Afficher le menu de selection en fonction du status
-function afficheMenu()
-{
+function afficheMenu(){
     ?>
-    <div class="nav flex-column">
-      <a class="nav-link" href="index.php">Index</a>
-      <br>
-      <a class="nav-link" href="index.php?action=liste_produits_loue">Panier</a>
-      <br>
-      <a class="nav-link" href="index.php?action=liste_produits_par_marque">Liste par marque</a>
-      <?
-      //Si la personne est 	admin, on ajoute des lignes au tableau
-    if ($_SESSION["status"]=="admin") {
-     ?>
-     <a class="nav-link h3" href="insertion.php?action=inserer_produit">Inserer un produit</a>
+    <nav class="navbar rounded-bottom navbar-expand-lg navbar-light bg-white">
+        <a class="navbar-brand" href="#">Location Materiel</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a href="index.php" title="Index" class="nav-link">Index</a>
+                </li>
+                <li class="nav-item">
+                    <a href="index.php?action=liste_produits_loue" title="Lister les produits loués" class="nav-link">
+                    Lister le(s) produits loué(s)</a>
+                </li>
+                <li class="nav-item">
+                    <a href="index.php?action=liste_produits_par_marque" title="Lister les produits par marque" class="nav-link">
+                    Lister les produits par marque</a>
+                </li>
+                <?php
+//Si la personne est    admin, on ajoute des lignes au tableau
+                if ($_SESSION["status"]=="admin") {
+                    ?>
+                    <li class="nav-item">
+                        <a href="insertion.php?action=inserer_produit" title="Insérer un produit" class="nav-link">
+                        Insérer un produit</a>
+                    </li>
+                    <?php
+                }
+                ?>
+            </ul>
+
+        </div>
+        <a class="btn btn-primary" href="index.php?action=logout" title="Déconnexion">Se déconnecter</a>
+    </nav>
     <?php
-    }
-    ?>
-    </div>
-      <?php
 }
 
 function afficheFooter()
@@ -360,6 +372,119 @@ function recupInsee($ville, $cp)
     }
     return $retour;
 }
+?>
 
+<?php
+// fonction que je rajoute
+// plus haut aussi petite modif
 
-                            ?>
+//#########################################################################################################
+// permet de recuperer toute les info sur un outils:
+function recupInfoOutil($nom){
+    try{
+        $madb = new PDO('sqlite:bdd/bdd.db');
+        $nom= $madb->quote($nom);
+        $requete = "SELECT * from outils WHERE nom==$nom ";
+        $resultat = $madb->query($requete);
+        $tab_info = $resultat->fetch(PDO::FETCH_ASSOC);
+        return $tab_info;
+
+    }
+    catch (Exception $e){
+        echo "<p>Problème interne, merci de réessayer plus tard</p>";
+        echo $e->getMessage();
+        die();
+    }
+}
+
+//#########################################################################################################
+// permet de récuperer toute les marque présente dans la table :
+function recupMarqueOutils(){
+    try{
+
+        $madb = new PDO('sqlite:bdd/bdd.db');
+        $requete = "SELECT * from Marque ";
+        $resultat = $madb->query($requete);
+        $tab_marque = $resultat->fetchAll(PDO::FETCH_ASSOC);
+        return $tab_marque;
+
+    }
+    catch (Exception $e){
+        echo "<p>Problème interne, merci de réessayer plus tard</p>";
+        echo $e->getMessage();
+        die();
+    }
+}
+
+//#########################################################################################################
+// modifie un outil de la table:
+function modification($donne){
+    try{
+        $retour = 0;
+    //on recup info outils pour le NoOutils
+        $tab_info = recupInfoOutil($donne["nom"]);
+
+        $madb = new PDO('sqlite:bdd/bdd.db');
+        $donne["newNom"] = $madb->quote($donne["newNom"]);
+        $donne["prix"] = $madb->quote($donne["prix"]);
+        $donne["image"] = $madb->quote($donne["image"]);
+        $donne["noMarque"] = $madb->quote($donne["noMarque"]);
+        $requete='UPDATE outils SET Nom='.$donne["newNom"].', Marque='.$donne["noMarque"].',PrixHoraire='.$donne["prix"].', Image='.$donne["image"].' WHERE NoOutils='.$tab_info["NoOutils"];
+        $res = $madb->exec($requete);
+        if($res==1) $retour = 1;
+        return $retour;
+    }
+    catch (Exception $e){
+        echo "<p>Problème interne, merci de réessayer plus tard</p>";
+        echo $e->getMessage();
+        die();
+    }
+
+}
+
+//#########################################################################################################
+// inserer un outil de la table:
+function insertion($donne){
+    try{
+        $retour = 0;
+    //on recup info outils pour le NoOutils
+        $tab_info = recupInfoOutil($donne["Nom"]);
+
+        $madb = new PDO('sqlite:bdd/bdd.db');
+        $Nom = $madb->quote($donne["Nom"]);
+        $prix = $madb->quote($donne["prix"]);
+        $image = $madb->quote($donne["image"]);
+        $marque = $madb->quote($donne["marque"]);
+      //  "INSERT INTO Compte VALUES ($email,$pass,$nom,$prenom,$insee,'membre')";
+        $requete="INSERT INTO outils (Nom,Marque,PrixHoraire,Image) VALUES ($Nom,$marque,$prix,$image)";
+        $res = $madb->exec($requete);
+        if($res==1) $retour = 1;
+        return $retour;
+    }
+    catch (Exception $e){
+        echo "<p>Problème interne, merci de réessayer plus tard</p>";
+        echo $e->getMessage();
+        die();
+    }
+
+}
+
+//#########################################################################################################
+// suprime un outils de la table:
+function supression($donne){
+    try{
+        $retour=0;
+        $madb = new PDO('sqlite:bdd/bdd.db');
+        $nom = $madb->quote($donne["nom"]);
+        $req="DELETE FROM outils WHERE Nom=$nom";
+        $res = $madb->exec($req);
+        if ($res==1) $retour = 1;
+        return $retour;
+    }
+    catch (Exception $e){
+        echo "<p>Problème interne, merci de réessayer plus tard</p>";
+        echo $e->getMessage();
+        die();
+    }
+}
+?>
