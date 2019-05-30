@@ -17,6 +17,8 @@
       <!-- Titre de la pahe -->
       <title>Location Materiel</title>
       <meta charset="UTF-8">
+      <!-- Icon d'onglet -->
+      <link rel="icon" type="image/png" href="images/icons/disquette.ico"/>
       <!-- Fichier de style pour le CSS perso -->
       <link rel="stylesheet" type="text/css" href="css/style.css">
       <!-- Fichier de style pour le CSS bootstrap -->
@@ -28,13 +30,16 @@
    </head>
    <body class="bg-light">
     <?php afficheMenu() ?>
-      <div class="container">
-            <div class="col-sm card bg-transparent text-center border-light">
+      <div class="container-fluid">
+          <div class="row">
+            <div class="col-1 col-xl-2">
+            </div>
+            <div class="col-10 col-xl-8 card bg-transparent text-center border-light">
                <?php
                   if (!empty($_SESSION) && !empty($_GET) && isset($_GET["action"])) {
                       switch ($_GET["action"]) {
                           case "liste_produits_loue":
-                                   echo '<h2>Liste des produits que vous louez</h2>';
+                                   echo '<h2 class="mt-4">Liste des produits que vous louez</h2>';
 
                                      // On récupère la resultat de la requète SQL dans un tableau
                                       $res=listeProduitLoues($_SESSION["login"]);
@@ -44,27 +49,36 @@
 
                                 // Si aucun produit n'est loué, on affiche un message
                                 if ($nbProduits==0) {
-                                    echo '<h3>Vous ne louez aucun produit</h3>';
+                                    echo '<h3 class="mt-4">Vous ne louez aucun produit</h3>';
+                                    ?>
+                                    <img width="80%" class="img-fluid mx-auto d-block" src="images/icons/pas_resultat.png" alt="pas résultat"/>
+                                    <?php
                                 } else {
                                     // Sinon, on affiche ce tableau
                                     afficheTableau($res);
                                 }
                                       break;
                       case "liste_produits_par_marque":
-                              echo '<h2>Liste des produits par marque</h2>';
+                              echo '<h2 class="mt-4">Liste des produits par marque</h2>';
                               // Affichage du menu de choix de la marque
                               afficheProduitParMarque();
+                              ?>
+                              <img width="80%" class="img-fluid mx-auto d-block" src="images/icons/choix.png" alt="pas résultat"/>
+                              <?php
                               break;
                           }
                   } else {
                           // Cas ou on arrive sur la page la première fois
                           if (empty($_GET) && empty($_POST)) {
-                              echo'<h2>Bienvenue sur votre page</h2>';
-                              echo'<h4>vous êtes connecté en tant que '.$_SESSION["login"].'</h4>';
+                              echo'<h2 class="mt-4">Bienvenue</h2>';
+                              echo'<h4 class="mt-1">vous êtes connecté(e) en tant que '.$_SESSION["login"].'</h4>';
+                              ?>
+                              <img width="100%" class="img-fluid mx-auto d-block" src="images/icons/profile.png" alt="pas résultat"/>
+                              <?php
                               echo'<br><hr>';
 
                               // on affiche la liste des produits
-                              echo '<h2>Liste des produits</h2>';
+                              echo '<h2  class="mt-4 mb-4">Liste des produits</h2>';
                               echo '<br>';
                               $res=listeProduit();
                               if ($res) {
@@ -96,7 +110,7 @@
                       if (!empty($_SESSION) && !empty($_POST) && isset($_POST["marque"])) {
 
                                 // On affiche un message
-                          echo '<h2>Liste des produits par marque</h2>';
+                          echo '<h2 class="mt-4">Liste des produits par marque</h2>';
 
                           // On affiche la menu deroulant encore
                           afficheProduitParMarque();
@@ -111,6 +125,9 @@
 
                    ?>
             </div>
+            <div class="col-1 col-xl-2">
+            </div>
+        </div>
          </div>
          <?php
             // Destruction de la session si on clique sur Se deconnecter
