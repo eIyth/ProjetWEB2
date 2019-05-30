@@ -121,10 +121,10 @@ function afficheTableau($tab)
 
 				<div class="col-12 col-sm-12 col-md-12 col-lg-4 col-xl-4">
             <div class="card shadow">
-              <img style="margin:auto" class="" src="images/outils/<?php echo $donnees['Photo']; ?>" alt="image">
               <div class="card-body">
                 <h5 class="card-title"><?php echo $donnees['Nom']; ?></h5>
                 <p class="card-text"><small class="text-muted"><?php echo $donnees['Marque']; ?></small></p>
+                <img style="margin:auto" class="miniature" src="images/outils/<?php echo $donnees['Photo']; ?>" alt="image">
 								<?php
                                 if ($_SESSION["status"]=="admin") {
                                     ?>
@@ -133,24 +133,30 @@ function afficheTableau($tab)
 										<button class="btn btn-info" type="submit" value="<?php echo $donnees["Nom"]?>" name="nom">Modifier</button>
                                         <input type="hidden" name="action" value="afficheForm" />
 									</form>
-                  <br>
+                                    <br>
 									<form method="post" action="supression.php">
 										<button class="btn btn-info" type="submit" value="<?php echo $donnees["Nom"]?>" name="nom">Supprimer</button>
                                         <input type="hidden" name="action" value="afficheInfo" />
 									</form>
 									<?php
-                                } else {
+                                }
+                                else {
+                                    ?>
+                                    <form method="post" action="<?php echo  $_SERVER["PHP_SELF"]?>">
+                                    <?php
                                     if (!estLoue($donnees["Nom"], $_SESSION["login"])) {
-                                        ?>
-									<form method="post" action="<?php echo  $_SERVER["PHP_SELF"]?>">
+                                    ?>
 										<button class="btn btn-info" type="submit" value="<?php echo $donnees["Nom"]?>" name="Louer">Louer</button>
+                                    <?php
+                                    }
+                                    else {
+                                    ?>
+                                        <button disabled="disabled" class="btn btn-grey" type="submit" value="<?php echo $donnees["Nom"]?>" name="DejaLoue">Déjà loué</button>
+                                    <?php
+                                        }
+                                    ?>
 									</form>
 									<?php
-                                    } else {
-                                        ?>
-											<button disabled="disabled" class="btn btn-grey" type="submit" value="<?php echo $donnees["Nom"]?>" name="DejaLoue">Produit déjà loué</button>
-										<?php
-                                    }
                                 } ?>
               </div>
         </div>
@@ -273,8 +279,9 @@ function estLoue($nom, $login)
 // Afficher le menu de selection en fonction du status
 function afficheMenu(){
     ?>
-    <nav class="navbar rounded-bottom navbar-expand-lg navbar-light bg-white">
-        <a class="navbar-brand" href="#">Location Materiel</a>
+    <nav class="navbar rounded-bottom navbar-expand-lg navbar-dark bg-dark">
+        <img src="images/icons/disquette.gif" width="30" height="30">
+        <a class="navbar-brand" href="index.php">Location Materiel</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -285,7 +292,7 @@ function afficheMenu(){
                 </li>
                 <li class="nav-item">
                     <a href="index.php?action=liste_produits_loue" title="Lister les produits loués" class="nav-link">
-                    Lister le(s) produits loué(s)</a>
+                    Mes produits</a>
                 </li>
                 <li class="nav-item">
                     <a href="index.php?action=liste_produits_par_marque" title="Lister les produits par marque" class="nav-link">
@@ -303,9 +310,10 @@ function afficheMenu(){
                 }
                 ?>
             </ul>
-
+            <ul class="navbar-nav ml-auto">
+                <a class="btn btn-primary " href="index.php?action=logout" title="Déconnexion">Se déconnecter</a>
+            </ul>
         </div>
-        <a class="btn btn-primary" href="index.php?action=logout" title="Déconnexion">Se déconnecter</a>
     </nav>
     <?php
 }
